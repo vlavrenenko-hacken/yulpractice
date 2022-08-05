@@ -10,7 +10,7 @@ contract StorageTest is Test {
         _storage = new Storage();
     }
 
-    function testGetStorageLOcation() external {
+    function testGetStorageLocation() external {
         (uint slotA, uint slotB) = _storage.getStorageLocation();
         
         assertEq(slotA, 0);
@@ -23,5 +23,11 @@ contract StorageTest is Test {
 
         assertEq(a, 100);
         assertEq(b, 1341);
+    }
+
+    function testGetOffset() external {
+        (uint offsetA, uint offsetB) = _storage.getOffset();
+        assertEq(offsetA, 0);
+        assertEq(offsetB, 16);
     }
 }
