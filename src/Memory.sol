@@ -23,4 +23,31 @@ contract Memory {
             // 0x7465737400000000000000000000000000000000000000000000000000000000 = "test"
         }
     }
+
+    function addition(uint x, uint y) external pure returns (uint) {
+        assembly {
+
+            // Create a new variable `result`
+            //  -> calculate the sum of `x + y` with the `add` opcode
+            //  -> assign the value to `result`
+
+            let result := add(x, y) // x + y
+
+            // Use the `mstore` opcode, to:
+            // -> store `result` in memory
+            // -> at memory address 0x0
+            mstore(0x80, result) // store result in memory
+            return(0x80, 32) // return 32 bytes from memory
+        }
+    }
+
+    function multiplication(uint itr, uint value) external pure returns {
+        assembly {
+            for { let i := 0 } lt(i, n) { i := add(i, 1) } {
+                value := mul(2, value)
+            }
+            mstore(0x80, value)
+            return(0x80, 32)
+        }
+    }
 }
