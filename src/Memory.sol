@@ -41,13 +41,25 @@ contract Memory {
         }
     }
 
-    function multiplication(uint itr, uint value) external pure returns {
+    function multiplication(uint itr, uint value) external pure returns(uint) {
         assembly {
-            for { let i := 0 } lt(i, n) { i := add(i, 1) } {
+            for { let i := 0 } lt(i, itr) { i := add(i, 1) } {
                 value := mul(2, value)
             }
             mstore(0x80, value)
             return(0x80, 32)
         }
     }
+
+     function multiplication_while_loop(uint value) external pure returns(uint) {
+        assembly {
+            let i := 0
+            for { } lt(i, 0x100) { } {   // while(i < 256), 100 (hex) = 256
+                value := add(2, value)
+                i := add(i, 0x20)
+        }   
+        mstore(0x80, value)
+        return(0x80, 32) // can return only after 0x80, can't move the memory pointer back
+    }
+}
 }
